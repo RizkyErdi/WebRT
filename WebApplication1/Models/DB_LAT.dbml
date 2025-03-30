@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="DB_LAT" Class="DB_LATDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=DESKTOP-FFDA23K;Initial Catalog=DB_LAT;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="DB_LATConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.TBL_T_INPUT" Member="TBL_T_INPUTs">
+    <Type Name="TBL_T_INPUT">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="NAME" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TBL_T_USER" Member="TBL_T_USERs">
+    <Type Name="TBL_T_USER">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="USERNAME" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="PASSWORD_HASH" Type="System.Data.Linq.Binary" DbType="Binary(64) NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="PASSWORD" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TBL_T_INFORMASI_IURAN" Member="TBL_T_INFORMASI_IURANs">
+    <Type Name="TBL_T_INFORMASI_IURAN">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Nama" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Alamat" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Status_Iuran" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Kontak" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Created_Date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Created_By" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Upated_Date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Updated_By" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SidebarMenus" Member="SidebarMenus">
+    <Type Name="SidebarMenus">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Icon" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Url" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="ParentId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsActive" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.Cusp_insertuser" Method="Cusp_insertuser">
+    <Parameter Name="Username" Parameter="username" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="password" Type="System.String" DbType="VarChar(MAX)" />
+    <Return Type="System.Int32" />
+  </Function>
+</Database>

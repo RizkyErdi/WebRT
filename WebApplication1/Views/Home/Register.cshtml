@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "Register";
+    Layout = null;
+}
+
+<div id="loader" class="loader loader-default"></div>
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Register | SIR</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    <!-- Loader CSS-->
+    <link href="~/Content/css-loader-master/css-loader-master/dist/css-loader.css" rel="stylesheet" />
+</head>
+<body id="body" style="background-color: #f2f7fd">
+    <div class="container d-flex h-100">
+        <div class="row align-self-center w-100">
+            <div class="col mx-auto" style="max-width: 30rem;">
+                <div class="card text-center">
+                    <h4 class="card-header">Register</h4>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col my-2">
+                                <input type="text" class="form-control" placeholder="Username" title="Please enter you username" name="username" id="username">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col my-2">
+                                <input type="password" class="form-control" title="Please enter your password" placeholder="******" name="password" id="password">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col my-2">
+                                <button type="button" style="width: 100%" class="btn btn-primary btn-block w-100" onclick="Register()">Register</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <p>Copyright © @DateTime.Now.Year. RT005/RW006</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="~/Scripts/jquery-3.6.0.js"></script>
+        <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+        @*<script src="~/Js/login.js"></script>*@
+
+</body>
+</html>
+
+<script src="~/Js/Register.js"></script>
