@@ -15,6 +15,7 @@ namespace WebApplication1.ViewModel
         {
             _context = new DB_LATDataContext();
         }
+        #region
         //public List<SidebarViewModel> GetSidebarMenus()
         //{
         //    if (HttpContext.Current.Session["Role"] == null)
@@ -104,6 +105,7 @@ namespace WebApplication1.ViewModel
 
         //    return menus;
         //}
+        #endregion
         public List<SidebarViewModel> GetSidebarMenus()
         {
             if (HttpContext.Current.Session["Role"] == null)
