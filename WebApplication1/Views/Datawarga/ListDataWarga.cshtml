@@ -1,0 +1,97 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Form Input Iuran";
+}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+
+
+    <!-- Content Row -->
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800">Informasi Warga RT 005/006</h1>
+        <p class="mb-4">Daftar warga, status iuran, dan kontak pengurus RT.</p>
+
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Tabel Warga</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="dataWargaTable" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>NIK</th>
+                                <th>NoKK</th>
+                                <th>Nama</th>
+                                <th>Tempat Lahir</th>
+                                <th>Tanggal Lahir</th>
+                                <th>Jenis Kelamin</th>
+                                <th>Alamat</th>
+                                <th>RT</th>
+                                <th>RW</th>
+                                <th>Kelurahan</th>
+                                <th>Kecamatan</th>
+                                <th>Agama</th>
+                                <th>Status Kawin</th>
+                                <th>Pekerjaan</th>
+                                <th>Kewarganegaraan</th>
+                                <th>No HP</th>
+                                <th>Email</th>
+                                <th>Tanggal Daftar</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <a href="@Url.Action("About", "Home")" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    <!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+<!-- Footer -->
+<footer class="sticky-footer bg-white">
+    <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+            <span>Copyright &copy; @DateTime.Now.Year. RT005/RW006</span>
+        </div>
+    </div>
+</footer>
+<!-- End of Footer -->
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" href="@Url.Action("LogOut", "Login")">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Js/GetListWarga.js"></script>

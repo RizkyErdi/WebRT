@@ -1,0 +1,217 @@
+﻿@{ //ViewBag.Title = "Test Page";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+
+
+    <!-- Content Row -->
+    <div class="container-fluid">
+
+        <div class="card">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h2>Input Data Warga</h2>
+                </div>
+
+                <div class="card-body">
+                    @*<form id="formInputWarga">*@
+                    <div class="row">
+                        <div class="col-md">
+                            <label for="nik">NIK</label>
+                            <input type="text" class="form-control" id="nik" name="nik" required>
+                        </div>
+                        <div class="col-md">
+                            <label for="nokk">No KK</label>
+                            <input type="text" class="form-control" id="nokk" name="nokk" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md">
+                            <label for="Nama" class="form-label">Nama</label>
+                            <input type="text" class="form-control" id="Nama" required />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md">
+                            <label for="TempatLahir">Tempat Lahir</label>
+                            <input type="text" class="form-control" id="TempatLahir" name="TempatLahir" required>
+                        </div>
+                        <div class="col-md">
+                            <label for="TglLahir">Tanggal Lahir</label>
+                            <input type="date" class="form-control" id="TglLahir" name="TglLahir" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md">
+                            <label for="JenisKelamin">Jenis Kelamin</label>
+                            <select id="JenisKelamin" class="form-control" required>
+                                <option value="">-- Pilih Jenis Kelamin --</option>
+                                <option value="Laki-Laki">Laki-Laki</option>
+                                <option value="Perempuan">Perempuan</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Alamat" class="form-label">Alamat</label>
+                        <textarea id="Alamat" class="form-control" rows="4"></textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md">
+                            <label for="RT">RT</label>
+                            <input type="text" class="form-control" id="RT" name="RT" required>
+                        </div>
+                        <div class="col-md">
+                            <label for="RW">RW</label>
+                            <input type="text" class="form-control" id="RW" name="RW" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md">
+                            <label for="Kelurahan">Kelurahan</label>
+                            <input type="text" class="form-control" id="Kelurahan" name="Kelurahan" required>
+                        </div>
+                        <div class="col-md">
+                            <label for="Kecamatan">Kecamatan</label>
+                            <input type="text" class="form-control" id="Kecamatan" name="Kecamatan" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md">
+                            <label for="Agama">Agama</label>
+                            <select id="Agama" class="form-control" required>
+                                <option value="">-- Pilih Agama --</option>
+                                <option value="Islam">Islam</option>
+                                <option value="Katolik">Katolik</option>
+                                <option value="Protestan">Protestan</option>
+                                <option value="Hindu">Hindu</option>
+                                <option value="Budha">Budha</option>
+                                <option value="Konghucu">Konghucu</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md">
+                            <label for="StatusKawin">Status Perkawinan</label>
+                            <select id="StatusKawin" class="form-control" required>
+                                <option value="">-- Pilih Status Kawin --</option>
+                                <option value="Menikah">Menikah</option>
+                                <option value="CeraiHidup">Cerai Hidup</option>
+                                <option value="CeraiMati">Cerai Mati</option>
+                                <option value="Belum Menikah">Belum Menikah</option>
+                            </select>
+                        </div>
+                        <div class="col-md">
+                            <label for="Pekerjaan">Pekerjaan</label>
+                            <input type="text" class="form-control" id="Pekerjaan" name="Pekerjaan" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md">
+                            <label for="Kewarganegaraan">Kewarganegaraan</label>
+                            <input type="text" class="form-control" id="Kewarganegaraan" name="Kewarganegaraan" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md">
+                            <label for="NoHp">No HP</label>
+                            <input type="text" class="form-control" id="NoHp" name="NoHp" required>
+                        </div>
+                        <div class="col-md">
+                            <label for="Email">Email</label>
+                            <input type="text" class="form-control" id="Email" name="Email" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md">
+                            <label for="TglDaftar">Tanggal Terdaftar</label>
+                            <input type="date" class="form-control" id="TglDaftar" name="TglDaftar" required>
+                        </div>
+                    </div>
+                    <!-- Tambahkan field lainnya sesuai kebutuhan -->
+
+                    <div class="row pt-2 justify-content-center">
+                        <div class="col-md-auto">
+                            <div class="invalid-feedback" id="message"></div>
+                        </div>
+                    </div>
+                    <div class="row pt-3 justify-content-center">
+                        <div class="col-md-auto">
+                            <button type="button" class="btn btn-primary" onclick="Submitdata()">Submit</button>
+                        </div>
+                    </div>
+
+                    @*</form>*@
+                </div>
+            </div>
+        </div>
+        <div class="card shadow-lg mt-4">
+            <div class="card-header bg-secondary text-white">
+                <h4>Upload Data Warga dari Excel</h4>
+            </div>
+
+            <div class="card-body">
+                <a href="@Url.Action("DownloadTemplateWarga", "Input")" class="btn btn-primary">Download Template</a>
+
+                <br /><br />
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="file" class="form-label">Pilih File Excel</label>
+                        <input type="file" class="form-control" id="fileInput" name="file" accept=".xlsx, .xls" required />
+                    </div>
+                    <button type="submit" class="btn btn-warning">Upload</button>
+                </form>
+                <div id="error-message" style="color: red; display:none;">
+                    <ul id="error-list"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+<!-- Footer -->
+<footer class="sticky-footer bg-white">
+    <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+            <span>Copyright &copy; @DateTime.Now.Year. RT005/RW006</span>
+        </div>
+    </div>
+</footer>
+<!-- End of Footer -->
+<!-- End of Page Wrapper -->
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" href="@Url.Action("LogOut", "Login")">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/Js/DataWarga.js"></script>

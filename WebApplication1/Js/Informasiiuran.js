@@ -12,25 +12,27 @@ function loadiuran() {
         success: function (data) {
             let tableBody = $("#orderTableBody");
             tableBody.empty(); // Kosongkan tabel sebelum menambahkan data baru
-
+            let counter = 1;
             $.each(data, function (index, order) {
                 let badgeClass = "";
                 debugger;
                 // If-else untuk menentukan warna badge berdasarkan status
-                if (order.Status_Iuran == "Lunas") {
+                if (order.Status_Iuran == "LUNAS") {
                     badgeClass = "badge badge-success"; // Hijau
                 } else {
                     badgeClass = "badge badge-danger"; // Merah
                 }
 
                 let row = `<tr>
-                            <td>${order.Id}</td>
+                            <td>${counter}</td>
                             <td>${order.Nama}</td>
+                            <td>${order.NIK}</td>
                             <td>${order.Alamat}</td>
                             <td><span class="${badgeClass}">${order.Status_Iuran}</span></td>
+                            <td>${order.Bulan_iuran}</td>
                             <td>${order.Kontak}</td>
                         </tr>`;
-
+                counter++;
                 tableBody.append(row);
                 console.log('datanya apa aja: ', row);
             });
@@ -41,40 +43,3 @@ function loadiuran() {
         }
     });
 }
-
-//function loadiuran() {
-//    $.ajax({
-//        type: "GET",
-//        url: "/Home/GetOrders",
-//        dataType: "json",
-//        success: function (data) {
-//            let tableBody = $("#orderTableBody");
-//            tableBody.empty(); // Kosongkan tabel sebelum menambahkan data baru
-//            //console.log(data);
-//            $.each(data, function (index, order) {
-//                let badgeClass = "";
-//                debugger;
-//                // If-else untuk menentukan warna badge berdasarkan status
-//                if (order.status === "Lunas") {
-//                    badgeClass = "badge bg-success"; // Hijau
-//                } else {
-//                    badgeClass = "badge bg-danger"; // Merah
-//                }
-
-//                let row = `<tr>
-//                            <td>${order.No}</td>
-//                            <td>${order.Nama}</td>
-//                            <td>${order.Alamat}</td>
-//                            <td><span class="${order.badgeClass}">${order.status}</span></td>
-//                            <td>${order.Kontak}</td>
-//                        </tr>`;
-
-//                tableBody.append(row);
-//            });
-//        },
-//        error: function (xhr, status, error) {
-//            console.error('Error fetching data:', error);
-//        }
-//    });
-//}
-

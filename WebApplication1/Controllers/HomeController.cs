@@ -9,12 +9,74 @@ using ClosedXML.Excel;
 using System.IO;
 using System.Net;
 using System.Net.Http;
-
+using System.Text.RegularExpressions;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.Security.Claims;
+using System.Configuration;
 
 namespace WebApplication1.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly SidebarService _sidebarService;
+
+        public HomeController()
+        {
+            _sidebarService = (SidebarService)Activator.CreateInstance(typeof(SidebarService));
+        }
+
+        /// <summary>
+        /// Fungsi helper untuk validasi token dan role.
+        /// </summary>
+        /// <param name="disallowedRoles">Daftar role yang tidak boleh mengakses halaman.</param>
+        private ActionResult ValidateTokenAccess(params string[] disallowedRoles)
+        {
+            // Ambil token dari session
+            var token = Session["token"] as string;
+
+            if (string.IsNullOrEmpty(token))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            try
+            {
+                var handler = new JwtSecurityTokenHandler();
+                var secret = ConfigurationManager.AppSettings["JwtSecret"];
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
+
+                // Validasi token
+                handler.ValidateToken(token, new TokenValidationParameters
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = key,
+                    ClockSkew = TimeSpan.FromMinutes(2)
+                }, out SecurityToken validatedToken);
+
+                var jwtToken = (JwtSecurityToken)validatedToken;
+                string userRole = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+
+                // Cek role yang tidak diizinkan
+                if (disallowedRoles.Contains(userRole))
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+
+                // ✅ Token valid dan role diizinkan
+                return null;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Token validation error: " + ex.Message);
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
         public ActionResult Index()
         {
             return View();
@@ -22,7 +84,21 @@ namespace WebApplication1.Controllers
 
         public ActionResult Register()
         {
-            return View();
+            if (Session["Role"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            string userRole = Session["Role"].ToString();
+            if (userRole != "Super Admin")
+            {
+                //TempData["AlertMessage"] = "Akses ditolak! Hanya Super Admin yang boleh mengakses.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            List<SidebarViewModel> menus = _sidebarService.GetSidebarMenus();
+
+            return View(menus);
         }
 
         [HttpPost]
@@ -41,54 +117,43 @@ namespace WebApplication1.Controllers
                 return Json(new { Remarks = false, Message = "Error : " + e.Message.ToString() }, JsonRequestBehavior.AllowGet);
             }
         }
-        private readonly SidebarService _sidebarService;
-        public ActionResult Sidebar()
-        {
-            List<SidebarViewModel> menus = _sidebarService.GetSidebarMenus() ?? new List<SidebarViewModel>();
-            return PartialView("_Sidebar", menus);
-        }
         public ActionResult test()
         {
-            DB_LATDataContext dblat = new DB_LATDataContext();
-            var menus = dblat.SidebarMenus
-                             .Where(m => (bool)m.IsActive)
-                             .Select(m => new SidebarViewModel
-                             {
-                                 Id = m.Id,
-                                 Name = m.Name,
-                                 Icon = m.Icon,
-                                 Url = m.Url,
-                                 ParentId = m.ParentId
-                             })
-                             .ToList() ?? new List<SidebarViewModel>();
+            List<SidebarViewModel> menus = _sidebarService.GetSidebarMenus();
 
             return View(menus);
-            //return View();
-            //var menus = dblat.SidebarMenus.Where(m => (bool)m.IsActive).ToList();
-            //ViewBag.SidebarMenus = menus; // Jangan sampai null
-            //return View();
         }
-        public ActionResult About()
+
+        public ActionResult PengajuanSrt()
         {
-            //if(Session["username"] == null)
-            //{
-            //    return RedirectToAction("Index", "Home");
-            //}
-            DB_LATDataContext dblat = new DB_LATDataContext();
-            var menus = dblat.SidebarMenus
-                             .Where(m => (bool)m.IsActive)
-                             .Select(m => new SidebarViewModel
-                             {
-                                 Id = m.Id,
-                                 Name = m.Name,
-                                 Icon = m.Icon,
-                                 Url = m.Url,
-                                 ParentId = m.ParentId
-                             })
-                             .ToList() ?? new List<SidebarViewModel>();
+            List<SidebarViewModel> menus = _sidebarService.GetSidebarMenus();
 
             return View(menus);
         }
+
+        public ActionResult ApprovalSrt()
+        {
+            List<SidebarViewModel> menus = _sidebarService.GetSidebarMenus();
+
+            return View(menus);
+        }
+
+        public ActionResult DataWargaUpload()
+        {
+            List<SidebarViewModel> menus = _sidebarService.GetSidebarMenus();
+
+            return View(menus);
+        }
+        //public ActionResult About()
+        //{
+        //    if (Session["Role"] == null)
+        //    {
+        //        return RedirectToAction("Index", "Home");
+        //    }
+        //    List<SidebarViewModel> menus = _sidebarService.GetSidebarMenus();
+
+        //    return View(menus);
+        //}
 
         public ActionResult Logout()
         {
@@ -97,214 +162,201 @@ namespace WebApplication1.Controllers
             return RedirectToAction("Index", "Home"); // Kembali ke halaman login
         }
 
-        public ActionResult InformasiKK()
-        {
-            //if (Session["username"] == null)
-            //{
-            //    return RedirectToAction("Index", "Home");
-            //}
-            DB_LATDataContext dblat = new DB_LATDataContext();
-            var menus = dblat.SidebarMenus
-                             .Where(m => (bool)m.IsActive)
-                             .Select(m => new SidebarViewModel
-                             {
-                                 Id = m.Id,
-                                 Name = m.Name,
-                                 Icon = m.Icon,
-                                 Url = m.Url,
-                                 ParentId = m.ParentId
-                             })
-                             .ToList() ?? new List<SidebarViewModel>();
+        //public ActionResult InputAct()
+        //{
+        //    if (Session["Role"] == null)
+        //    {
+        //        return RedirectToAction("Index", "Home");
+        //    }
+        //    string userRole = Session["Role"].ToString();
+        //    if (userRole == "Warga")
+        //    {
+        //        return RedirectToAction("Index", "Home");
+        //    }
 
+        //    List<SidebarViewModel> menus = _sidebarService.GetSidebarMenus();
+
+        //    return View(menus);
+        //}
+
+        public ActionResult InputAct()
+        {
+            var result = ValidateTokenAccess("Warga"); // Role 'Warga' tidak boleh akses
+            if (result != null)
+                return result;
+
+            List<SidebarViewModel> menus = _sidebarService.GetSidebarMenus();
             return View(menus);
         }
-        public ActionResult login()
+
+        public ActionResult About()
         {
-            //if (Session["username"] == null)
-            //{
-            //    return RedirectToAction("Index", "Home");
-            //}
+            var result = ValidateTokenAccess(); // Semua role diizinkan
+            if (result != null)
+                return result;
+
+            List<SidebarViewModel> menus = _sidebarService.GetSidebarMenus();
+            return View(menus);
+        }
+
+    public ActionResult login()
+        {
+            if (Session["username"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
+
         public ActionResult Table()
         {
-            DB_LATDataContext dblat = new DB_LATDataContext();
-            var menus = dblat.SidebarMenus
-                             .Where(m => (bool)m.IsActive)
-                             .Select(m => new SidebarViewModel
-                             {
-                                 Id = m.Id,
-                                 Name = m.Name,
-                                 Icon = m.Icon,
-                                 Url = m.Url,
-                                 ParentId = m.ParentId
-                             })
-                             .ToList() ?? new List<SidebarViewModel>();
+            var result = ValidateTokenAccess(); // semua role boleh
+            if (result != null) return result;
 
+            List<SidebarViewModel> menus = _sidebarService.GetSidebarMenus();
             return View(menus);
         }
 
         public ActionResult InputIuran()
         {
-            DB_LATDataContext dblat = new DB_LATDataContext();
-            var menus = dblat.SidebarMenus
-                             .Where(m => (bool)m.IsActive)
-                             .Select(m => new SidebarViewModel
-                             {
-                                 Id = m.Id,
-                                 Name = m.Name,
-                                 Icon = m.Icon,
-                                 Url = m.Url,
-                                 ParentId = m.ParentId
-                             })
-                             .ToList() ?? new List<SidebarViewModel>();
+            var result = ValidateTokenAccess("Super Admin", "Admin"); // hanya admin/super admin
+            if (result != null) return result;
 
+            ViewBag.Username = Session["username"].ToString();
+            List<SidebarViewModel> menus = _sidebarService.GetSidebarMenus();
             return View(menus);
         }
 
-        // Download Template Excel
-        public ActionResult DownloadTemplate()
+        public ActionResult UploadInfo()
         {
-            using (XLWorkbook wb = new XLWorkbook())
-            {
-                var ws = wb.Worksheets.Add("Template");
-                ws.Cell(1, 1).Value = "Nama";
-                ws.Cell(1, 2).Value = "Alamat";
-                ws.Cell(1, 3).Value = "Status Iuran (Lunas/Belum Lunas)";
-                ws.Cell(1, 4).Value = "Kontak (Hanya Angka)";
+            var result = ValidateTokenAccess("Super Admin", "Admin");
+            if (result != null) return result;
 
-                using (MemoryStream stream = new MemoryStream())
-                {
-                    wb.SaveAs(stream);
-                    return File(stream.ToArray(),
-                                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                                "Template_Iuran.xlsx");
-                }
-            }
+            List<SidebarViewModel> menus = _sidebarService.GetSidebarMenus();
+            return View(menus);
         }
 
-        #region upload
-        // Upload & Process Excel
-        //[HttpPost]
-        //public ActionResult UploadExcel(HttpPostedFileBase file)
+        public ActionResult DaftarInfo()
+        {
+            var result = ValidateTokenAccess(); // semua role boleh
+            if (result != null) return result;
+
+            List<SidebarViewModel> menus = _sidebarService.GetSidebarMenus();
+            return View(menus);
+        }
+
+        public ActionResult Kontak()
+        {
+            var result = ValidateTokenAccess();
+            if (result != null) return result;
+
+            List<SidebarViewModel> menus = _sidebarService.GetSidebarMenus();
+            return View(menus);
+        }
+
+        public ActionResult DetailAct()
+        {
+            var result = ValidateTokenAccess();
+            if (result != null) return result;
+
+            List<SidebarViewModel> menus = _sidebarService.GetSidebarMenus();
+            return View(menus);
+        }
+
+
+        #region
+        //public ActionResult Table()
         //{
-        //    DB_LATDataContext dblat = new DB_LATDataContext();
-
-        //    if (file == null || file.ContentLength == 0)
+        //    if (Session["Role"] == null)
         //    {
-        //        TempData["Error"] = "File tidak ditemukan!";
-        //        return RedirectToAction("Index");
+        //        return RedirectToAction("Index", "Home");
         //    }
 
-        //    try
-        //    {
-        //        using (XLWorkbook wb = new XLWorkbook(file.InputStream))
-        //        {
-        //            var ws = wb.Worksheet(1);
-        //            var rows = ws.RangeUsed().RowsUsed().Skip(1); // Lewati header
-        //            List<ClsInput> dataList = new List<ClsInput>();
+        //    List<SidebarViewModel> menus = _sidebarService.GetSidebarMenus();
 
-        //            foreach (var row in rows)
-        //            {
-        //                string nama = row.Cell(1).GetString().Trim();
-        //                string alamat = row.Cell(2).GetString().Trim();
-        //                string statusIuran = row.Cell(3).GetString().Trim();
-        //                string kontak = row.Cell(4).GetString().Trim();
-
-        //                // Validasi
-        //                if (string.IsNullOrEmpty(nama) || string.IsNullOrEmpty(alamat) ||
-        //                    (statusIuran != "Lunas" && statusIuran != "Belum Lunas") ||
-        //                    !kontak.All(char.IsDigit))
-        //                {
-        //                    TempData["Error"] = "Format data salah. Periksa kembali file Anda!";
-        //                    return RedirectToAction("Index");
-        //                }
-
-        //                dataList.Add(new ClsInput
-        //                {
-        //                    Nama = nama,
-        //                    Alamat = alamat,
-        //                    StatusIuran = statusIuran,
-        //                    Kontak = kontak,
-        //                    Created_Date = DateTime.Now,
-        //                    Updated_Date = DateTime.Now
-        //                });
-        //            }
-
-        //            var dataToInsert = dataList.Select(item => new TBL_T_INFORMASI_IURAN
-        //            {
-        //                Nama = item.Nama,
-        //                Alamat = item.Alamat,
-        //                Status_Iuran = item.StatusIuran, // Pastikan nama properti sesuai
-        //                Kontak = item.Kontak,
-        //                Created_Date = item.Created_Date,
-        //                Created_By = "SYSTEM",
-        //                Upated_Date = item.Updated_Date,
-        //                Updated_By = "SYSTEM"
-        //            }).ToList();
-
-        //            dblat.TBL_T_INFORMASI_IURANs.InsertAllOnSubmit(dataToInsert);
-        //            dblat.SubmitChanges();
-        //            TempData["Success"] = "Data berhasil diupload!";
-        //        }
-        //        TempData["Success"] = "Data berhasil diupload!";
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        TempData["Error"] = "Upload gagal: " + ex.Message;
-        //    }
-
-        //    return RedirectToAction("InputIuran");
+        //    return View(menus);
         //}
-        #endregion upload
 
-        [HttpPost]
-        public JsonResult UploadExcel(HttpPostedFileBase file)
-        {
-            DB_LATDataContext db = new DB_LATDataContext();
-            if (file == null || file.ContentLength == 0)
-            {
-                return Json(new { success = false, message = "File tidak boleh kosong!" });
-            }
+        //public ActionResult InputIuran()
+        //{
+        //    if (Session["Role"] == null)
+        //    {
+        //        return RedirectToAction("Index", "Home");
+        //    }
 
-            try
-            {
-                using (var workbook = new XLWorkbook(file.InputStream))
-                {
-                    var worksheet = workbook.Worksheet(1);
-                    var rows = worksheet.RangeUsed().RowsUsed().Skip(1); // Skip header
+        //    string userRole = Session["Role"].ToString();
+        //    if (userRole != "Super Admin" && userRole != "Admin")
+        //    {
+        //        return RedirectToAction("Index", "Home");
+        //    }
 
-                    List<TBL_T_INFORMASI_IURAN> dataList = new List<TBL_T_INFORMASI_IURAN>();
+        //    ViewBag.Username = Session["username"].ToString();
 
-                    foreach (var row in rows)
-                    {
-                        var data = new TBL_T_INFORMASI_IURAN
-                        {
-                            Nama = row.Cell(1).Value.ToString(),
-                            Alamat = row.Cell(2).Value.ToString(),
-                            Status_Iuran = row.Cell(3).Value.ToString(),
-                            Kontak = row.Cell(4).Value.ToString(),
-                            Created_Date = DateTime.Now,
-                            Created_By = "SYSTEM",
-                            Upated_Date = DateTime.Now,
-                            Updated_By = "SYSTEM"
-                        };
+        //    List<SidebarViewModel> menus = _sidebarService.GetSidebarMenus();
 
-                        dataList.Add(data);
-                    }
+        //    return View(menus);
+        //}
 
-                    db.TBL_T_INFORMASI_IURANs.InsertAllOnSubmit(dataList);
-                    db.SubmitChanges();
+        //public ActionResult UploadInfo()
+        //{
+        //    if (Session["Role"] == null)
+        //    {
+        //        return RedirectToAction("Index", "Home");
+        //    }
 
-                    return Json(new { success = true, message = "Data berhasil diupload!" });
-                }
-            }
-            catch (Exception ex)
-            {
-                return Json(new { success = false, message = "Terjadi kesalahan: " + ex.Message });
-            }
-        }
+        //    string userRole = Session["Role"].ToString();
+        //    if (userRole != "Super Admin" && userRole != "Admin")
+        //    {
+        //        return RedirectToAction("Index", "Home");
+        //    }
 
+        //    List<SidebarViewModel> menus = _sidebarService.GetSidebarMenus();
+
+        //    return View(menus);
+        //}
+
+        //public ActionResult DaftarInfo()
+        //{
+        //    if (Session["Role"] == null)
+        //    {
+        //        return RedirectToAction("Index", "Home");
+        //    }
+
+        //    //string userRole = Session["Role"].ToString();
+        //    //if (userRole != "Super Admin" || userRole != "Admin")
+        //    //{
+        //    //    return RedirectToAction("Index", "Home");
+        //    //}
+
+        //    List<SidebarViewModel> menus = _sidebarService.GetSidebarMenus();
+
+        //    return View(menus);
+        //}
+
+        //public ActionResult Kontak()
+        //{
+        //    if (Session["Role"] == null)
+        //    {
+        //        return RedirectToAction("Index", "Home");
+        //    }
+
+        //    List<SidebarViewModel> menus = _sidebarService.GetSidebarMenus();
+
+        //    return View(menus);
+        //}
+
+        //public ActionResult DetailAct()
+        //{
+        //    if (Session["Role"] == null)
+        //    {
+        //        return RedirectToAction("Index", "Home");
+        //    }
+
+        //    List<SidebarViewModel> menus = _sidebarService.GetSidebarMenus();
+
+        //    return View(menus);
+        //}
+        #endregion
 
         [HttpPost]
         //[AllowAnonymous]
@@ -315,10 +367,12 @@ namespace WebApplication1.Controllers
                 InformasiIuran clsinformasiiuran = new InformasiIuran();
                 var orders = clsinformasiiuran.GetstatusIuran().Select(o => new InformasiIuran
                 {
-                    Id = o.Id,
+                    //Id = o.Id,
                     Nama = o.Nama,
+                    NIK = o.NIK,
                     Alamat = o.Alamat,
                     Status_Iuran = o.Status_Iuran,
+                    Bulan_iuran = o.Bulan_Iuran,
                     Kontak = o.Kontak
 
                 }).ToList();
@@ -329,6 +383,22 @@ namespace WebApplication1.Controllers
             {
                 Console.WriteLine("Error in GetOrders: " + ex.Message);
                 return Json(new { error = "Terjadi kesalahan di server", details = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        public JsonResult GetBulan()
+        {
+            try
+            {
+                ClsInput ambilBulan = new ClsInput();
+                var data = ambilBulan.BulanIuran();
+
+                return Json(new { success = true, message = "Data retrieved successfully!", data }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Error: " + ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
     }

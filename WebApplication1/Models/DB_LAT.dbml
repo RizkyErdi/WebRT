@@ -6,20 +6,36 @@
       <Column Name="NAME" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
     </Type>
   </Table>
-  <Table Name="dbo.TBL_T_USER" Member="TBL_T_USERs">
-    <Type Name="TBL_T_USER">
+  <Table Name="dbo.TBL_M_MONTH" Member="TBL_M_MONTHs">
+    <Type Name="TBL_M_MONTH">
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="USERNAME" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="PASSWORD_HASH" Type="System.Data.Linq.Binary" DbType="Binary(64) NOT NULL" CanBeNull="false" UpdateCheck="Never" />
-      <Column Name="PASSWORD" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="BULAN_HURUF" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="BULAN_ANGKA" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.TBL_T_INFORMASI_IURAN" Member="TBL_T_INFORMASI_IURANs">
     <Type Name="TBL_T_INFORMASI_IURAN">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Nama" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="NIK" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="Alamat" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Column Name="Status_Iuran" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Bulan_Iuran" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Kontak" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Created_Date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Created_By" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Upated_Date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Updated_By" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TBL_H_INFORMASI_IURAN" Member="TBL_H_INFORMASI_IURANs">
+    <Type Name="TBL_H_INFORMASI_IURAN">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Nama" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="NIK" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Alamat" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Status_Iuran" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Bulan_Iuran" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="Kontak" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="Created_Date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="Created_By" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
@@ -35,11 +51,110 @@
       <Column Name="Url" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
       <Column Name="ParentId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="IsActive" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Role" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="SidebarMenus_SidebarMenuRole" Member="SidebarMenuRoles" ThisKey="Id" OtherKey="SidebarMenuId" Type="SidebarMenuRole" />
     </Type>
   </Table>
+  <Table Name="dbo.SidebarMenuRoles" Member="SidebarMenuRoles">
+    <Type Name="SidebarMenuRole">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="SidebarMenuId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Role" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="SidebarMenus_SidebarMenuRole" Member="SidebarMenus" ThisKey="SidebarMenuId" OtherKey="Id" Type="SidebarMenus" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TBL_T_PENGUMUMAN" Member="TBL_T_PENGUMUMANs">
+    <Type Name="TBL_T_PENGUMUMAN">
+      <Column Name="id_pengumuman" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="tipe_pengumuman" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="tahun_pengumuman" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="nama_file" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="tanggal_upload" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="uploaded_by" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TBL_T_KONTAK" Member="TBL_T_KONTAKs">
+    <Type Name="TBL_T_KONTAK">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Message" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="IsRead" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TBL_T_KEGIATAN" Member="TBL_T_KEGIATANs">
+    <Type Name="TBL_T_KEGIATAN">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="NamaKegiatan" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Tanggal" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Lokasi" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Deskripsi" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Undangan" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TBL_T_WARGA" Member="TBL_T_WARGAs">
+    <Type Name="TBL_T_WARGA">
+      <Column Name="WargaID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="NIK" Type="System.String" DbType="VarChar(16) NOT NULL" CanBeNull="false" />
+      <Column Name="NoKK" Type="System.String" DbType="VarChar(16) NOT NULL" CanBeNull="false" />
+      <Column Name="Nama" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="TempatLahir" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="TanggalLahir" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="JenisKelamin" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="Alamat" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="RT" Type="System.String" DbType="VarChar(5)" CanBeNull="true" />
+      <Column Name="RW" Type="System.String" DbType="VarChar(5)" CanBeNull="true" />
+      <Column Name="Kelurahan" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Kecamatan" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Agama" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="StatusPerkawinan" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="Pekerjaan" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Kewarganegaraan" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="NoHP" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="TanggalTerdaftar" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="UpdatedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UpdatedBy" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TBL_T_USER" Member="TBL_T_USERs">
+    <Type Name="TBL_T_USER">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="USERNAME" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="PASSWORD_HASH" Type="System.Data.Linq.Binary" DbType="VarBinary(64) NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="PASSWORD" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="NIK" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Role" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.VSP_INFO_IURAN" Method="VSP_INFO_IURAN">
+    <ElementType Name="VSP_INFO_IURANResult">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Nama" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="NIK" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Alamat" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Status_Iuran" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Bulan_Iuran" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Kontak" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Created_Date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Created_By" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Upated_Date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Updated_By" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="BULAN_ANGKA" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Tahun" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
   <Function Name="dbo.Cusp_insertuser" Method="Cusp_insertuser">
     <Parameter Name="Username" Parameter="username" Type="System.String" DbType="VarChar(50)" />
     <Parameter Name="password" Type="System.String" DbType="VarChar(MAX)" />
+    <Parameter Name="nik" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="Role" Parameter="role" Type="System.String" DbType="VarChar(50)" />
     <Return Type="System.Int32" />
   </Function>
 </Database>

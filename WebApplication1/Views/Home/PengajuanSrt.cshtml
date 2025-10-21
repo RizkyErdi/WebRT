@@ -1,0 +1,119 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Form Input Iuran";
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<!-- Topbar -->
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+
+
+    <!-- Content Row -->
+    <form id="formPengajuanSurat" enctype="multipart/form-data" method="post">
+        <div class="container-fluid">
+            <!-- Page Heading -->
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-header bg-primary text-white rounded-top-4">
+                    <h4 class="mb-0">Form Pengajuan Surat RT</h4>
+                </div>
+                <div class="card-body px-4 py-4">
+
+                    <div class="mb-3">
+                        <label for="nama" class="form-label">Nama Lengkap</label>
+                        <input type="text" id="nama" name="nama" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="nik" class="form-label">NIK (Nomor Induk Kependudukan)</label>
+                        <input type="text" id="nik" name="nik" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="alamat" class="form-label">Alamat Lengkap</label>
+                        <textarea id="alamat" name="alamat" class="form-control" rows="3" required></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="jenis_surat" class="form-label">Jenis Surat</label>
+                        <select id="jenis_surat" name="jenis_surat" class="form-select" required>
+                            <option value="">-- Pilih Jenis Surat --</option>
+                            <option value="Keterangan Domisili">Surat Keterangan Domisili</option>
+                            <option value="Pengantar KTP/KK">Surat Pengantar KTP/KK</option>
+                            <option value="Pengantar Skck">Surat Pengantar SKCK</option>
+                            <option value="Pengantar Nikah">Surat Pengantar Nikah</option>
+                            <option value="Keterangan Usaha">Surat Keterangan Usaha</option>
+                            <option value="Pindah Domisili">Surat Pindah Domisili</option>
+                            <option value="Keterangan Kematian">Surat Keterangan Kematian</option>
+                            <option value="Keterangan Tidak Mampu">Surat Keterangan Tidak Mampu</option>
+                            <option value="lainnya">Lainnya</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="tujuan" class="form-label">Tujuan Pengajuan Surat</label>
+                        <input type="text" id="tujuan" name="tujuan" class="form-control" placeholder="Misal: Mengurus SKCK di Polsek" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="dokumen" class="form-label">Upload Dokumen Pendukung</label>
+                        <input type="file" id="dokumen" name="dokumen" class="form-control" required />
+                        <div class="form-text">Format file: KTP, KK, atau dokumen relevan lainnya</div>
+                    </div>
+
+                    <div class="text-center pt-3">
+                        <div class="invalid-feedback d-block" id="message"></div>
+                        <button type="button" class="btn btn-primary btn-lg px-5" onclick="savesurat()">Ajukan Surat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+        <!-- /.container-fluid -->
+</div>
+<!-- End of Main Content -->
+<!-- Footer -->
+<footer class="sticky-footer bg-white">
+    <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+            <span>Copyright &copy; @DateTime.Now.Year. RT005/RW006</span>
+        </div>
+    </div>
+</footer>
+<!-- End of Footer -->
+<!-- End of Page Wrapper -->
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" href="@Url.Action("LogOut", "Login" )">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Js/InputSrt.js"></script>

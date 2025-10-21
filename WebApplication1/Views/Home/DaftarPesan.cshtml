@@ -1,0 +1,53 @@
+﻿@{
+    Layout = null;
+}
+
+@using WebApplication1.Models
+@model WebApplication1.ViewModel.KontakService.KontakMessage
+
+
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+
+
+    <!-- Content Row -->
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <div class="container mt-4">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h2>Detail Pesan</h2>
+                </div>
+                <div class="card-body">
+
+                    <div class="message-detail">
+                        <p><strong>Nama Pengirim:</strong> @Model.Name</p>
+                        <p><strong>Email:</strong> @Model.Email</p>
+                        <p><strong>Pesan:</strong> @Model.Message</p>
+                        <p><strong>Tanggal:</strong> @Model.CreatedDate</p>
+                    </div>
+                    <a href="@Url.Action("About", "Home" )" class="btn btn-primary">Kembali</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+<!-- Footer -->
+<footer class="sticky-footer bg-white">
+    <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+            <span>Copyright &copy; @DateTime.Now.Year. RT005/RW006</span>
+        </div>
+    </div>
+</footer>
+<!-- End of Footer -->
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>

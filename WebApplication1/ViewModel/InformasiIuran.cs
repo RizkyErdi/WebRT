@@ -11,13 +11,15 @@ namespace WebApplication1.ViewModel
         DB_LATDataContext dblat = new DB_LATDataContext();
         public int Id { get; set; }
         public string Nama { get; set; }
+        public string NIK { get; set; }
         public string Alamat { get; set; }
         public string Status_Iuran { get; set; }
+        public string Bulan_iuran { get; set; }
         public string Kontak { get; set; }
 
-        public List<TBL_T_INFORMASI_IURAN> GetstatusIuran()
+        public List<VSP_INFO_IURANResult> GetstatusIuran()
         {
-            var statusiuran = dblat.TBL_T_INFORMASI_IURANs.ToList();
+            var statusiuran = dblat.VSP_INFO_IURAN().ToList();
             return statusiuran;
         }
 

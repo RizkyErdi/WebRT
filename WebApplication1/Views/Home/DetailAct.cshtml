@@ -1,0 +1,120 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Detail Kegiatan RT";
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<!-- Topbar -->
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+
+
+    <!-- Content Row -->
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <div class="container mt-4">
+            <div class="col-md-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">Detail Kegiatan RT</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <select id="NamaKegiatan" class="form-control">
+                                    <option value="">-- Pilih Kegiatan --</option>
+                                    <option value="Rapat Warga">Rapat Warga</option>
+                                    <option value="Kerja Bakti">Kerja Bakti</option>
+                                    <option value="Arisan Warga">Arisan Warga</option>
+                                    <option value="Posyandu">Posyandu</option>
+                                    <option value="Peringatan Hari Besar">Peringatan Hari Besar</option>
+                                    <option value="Keamanan & Siskamling">Keamanan & Siskamling</option>
+                                    <option value="Bakti Sosial">Bakti Sosial</option>
+                                    <option value="Senam Warga">Senam Warga</option>
+                                    <option value="Lomba & Festival">Lomba & Festival</option>
+                                    <option value="Pelatihan & Penyuluhan">Pelatihan & Penyuluhan</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="date" id="startDate" class="form-control" />
+                            </div>
+                            <div class="col-md-3">
+                                <input type="date" id="endDate" class="form-control" />
+                            </div>
+                            <div class="col-md-2">
+                                <button id="searchBtn" class="btn btn-primary w-100">Search</button>
+                            </div>
+                        </div>
+
+                        <table class="table table-bordered">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Nama Kegiatan</th>
+                                    <th>Tanggal</th>
+                                    <th>Lokasi</th>
+                                    <th>Deskripsi</th>
+                                    <th>Undangan</th>
+                                </tr>
+                            </thead>
+                            <tbody id="kegiatanTable">
+                                <!-- Data akan dimuat di sini melalui AJAX -->
+                            </tbody>
+                        </table>
+                        <a href="@Url.Action("About", "Home")" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</div>
+<!-- End of Main Content -->
+<!-- Footer -->
+<footer class="sticky-footer bg-white">
+    <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+            <span>Copyright &copy; @DateTime.Now.Year. RT005/RW006</span>
+        </div>
+    </div>
+</footer>
+<!-- End of Footer -->
+<!-- End of Page Wrapper -->
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" href="@Url.Action("LogOut", "Login" )">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/Js/DetaliAct.js"></script>

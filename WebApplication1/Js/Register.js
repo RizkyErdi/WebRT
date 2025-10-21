@@ -6,8 +6,12 @@ function Register() {
     $("#loader").addClass("is-active");
 
     var ClsHome = {
+        //debugger;
         username: $("#username").val(),
         password: $("#password").val(),
+        nik: $("#nik").val(),
+        role: $("#RoleUser").val(),
+
     };
     
 
@@ -20,7 +24,7 @@ function Register() {
 
             if (response.Remarks == true) {
                 alert("Register Berhasil");
-                location.href = "../Home/Index"
+                location.href = "../Home/About"
 
             }
             else if (response.Remarks == false) {

@@ -1,0 +1,106 @@
+﻿@{ //ViewBag.Title = "Test Page";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+
+
+    <!-- Content Row -->
+    <div class="container-fluid">
+
+
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Input Kegiatan RT</h4>
+            </div>
+
+            <div class="card-body">
+                <form id="kegiatanForm" asp-action="Create" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="NamaKegiatan" class="form-label">Nama Kegiatan</label>
+                        <select id="NamaKegiatan" class="form-control" required>
+                            <option value="">-- Pilih Kegiatan --</option>
+                            <option value="Rapat Warga">Rapat Warga</option>
+                            <option value="Kerja Bakti">Kerja Bakti</option>
+                            <option value="Arisan Warga">Arisan Warga</option>
+                            <option value="Posyandu">Posyandu</option>
+                            <option value="Peringatan Hari Besar">Peringatan Hari Besar</option>
+                            <option value="Keamanan & Siskamling">Keamanan & Siskamling</option>
+                            <option value="Bakti Sosial">Bakti Sosial</option>
+                            <option value="Senam Warga">Senam Warga</option>
+                            <option value="Lomba & Festival">Lomba & Festival</option>
+                            <option value="Pelatihan & Penyuluhan">Pelatihan & Penyuluhan</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Tanggal" class="form-label">Tanggal</label>
+                        <input id="Tanggal" type="date" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="Lokasi" class="form-label">Lokasi</label>
+                        <input id="Lokasi" type="text" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="Deskripsi" class="form-label">Deskripsi</label>
+                        <textarea id="Deskripsi" class="form-control" rows="4"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Undangan" class="form-label">Upload Undangan</label>
+                        <input type="file" id="Undangan" class="form-control" accept=".pdf,.doc,.docx,.jpg,.png" />
+                    </div>
+                    <div class="row pt-2 justify-content-center">
+                        <div class="col-md-auto">
+                            <div class="invalid-feedback" id="message"></div>
+                        </div>
+                    </div>
+                    <button type="button" id="btnSimpan" class="btn btn-primary">Simpan</button>
+                </form>
+            </div>
+        </div>
+        <div class="text-center mt-3">
+            <a asp-action="Index">Kembali ke daftar</a>
+        </div>
+
+
+    </div>
+    <!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+<!-- Footer -->
+<footer class="sticky-footer bg-white">
+    <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+            <span>Copyright &copy; @DateTime.Now.Year. RT005/RW006</span>
+        </div>
+    </div>
+</footer>
+<!-- End of Footer -->
+<!-- End of Page Wrapper -->
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" href="@Url.Action("LogOut", "Login")">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/Js/InputKegiatan.js"></script>
